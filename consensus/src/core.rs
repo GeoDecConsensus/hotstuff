@@ -212,6 +212,7 @@ impl Core {
         // Add the new vote to our aggregator and see if we have a quorum.
         if let Some(qc) = self.aggregator.add_vote(vote.clone())? {
             debug!("Assembled {:?}", qc);
+            info!("[GEODEC] QC: {:?}", qc);
 
             // Process the QC.
             self.process_qc(&qc).await;
@@ -226,6 +227,7 @@ impl Core {
 
     async fn handle_timeout(&mut self, timeout: &Timeout) -> ConsensusResult<()> {
         debug!("Processing {:?}", timeout);
+        info!("[GEODEC] TIMEOUT: {:?}", timeout);
         if timeout.round < self.round {
             return Ok(());
         }
@@ -302,6 +304,7 @@ impl Core {
     }
 
     async fn process_qc(&mut self, qc: &QC) {
+        info!("[GEODEC] VOTES: {:?}", qc.votes);
         self.advance_round(qc.round).await;
         self.update_high_qc(qc);
     }
