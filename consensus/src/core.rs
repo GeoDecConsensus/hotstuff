@@ -142,7 +142,7 @@ impl Core {
             if !block.payload.is_empty() {
                 info!("[GEODEC] Author {} | Committed {}", block.author, block);
                 let vote_public_keys: Vec<_> = block.qc.votes.iter().map(|vote| vote.0).collect();
-                info!("[GEODEC] Votes {:?}", vote_public_keys);
+                info!("[GEODEC] Votes {} - {:?}", vote_public_keys.len(), vote_public_keys);
 
                 #[cfg(feature = "benchmark")]
                 for x in &block.payload {
