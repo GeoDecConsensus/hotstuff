@@ -12,7 +12,7 @@ use async_recursion::async_recursion;
 use bytes::Bytes;
 use crypto::Hash as _;
 use crypto::{PublicKey, SignatureService};
-use log::{debug, error, warn};
+use log::{debug, error, warn, info};
 use network::SimpleSender;
 use std::cmp::max;
 use std::collections::VecDeque;
