@@ -12,7 +12,7 @@ use async_recursion::async_recursion;
 use bytes::Bytes;
 use crypto::Hash as _;
 use crypto::{PublicKey, SignatureService};
-use log::{debug, error, info, warn};
+use log::{debug, error, warn};
 use network::SimpleSender;
 use std::cmp::max;
 use std::collections::VecDeque;
@@ -140,9 +140,9 @@ impl Core {
         // Send all the newly committed blocks to the node's application layer.
         while let Some(block) = to_commit.pop_back() {
             if !block.payload.is_empty() {
-                info!("[GEODEC] Author {} | Committed {}", block.author, block);
-                let vote_public_keys: Vec<_> = block.qc.votes.iter().map(|vote| vote.0).collect();
-                info!("[GEODEC] Votes {} - {:?}", vote_public_keys.len(), vote_public_keys);
+                // info!("[GEODEC] Author {} | Committed {}", block.author, block);
+                // let vote_public_keys: Vec<_> = block.qc.votes.iter().map(|vote| vote.0).collect();
+                // info!("[GEODEC] Votes {} - {:?}", vote_public_keys.len(), vote_public_keys);
 
                 #[cfg(feature = "benchmark")]
                 for x in &block.payload {
@@ -214,7 +214,7 @@ impl Core {
         // Add the new vote to our aggregator and see if we have a quorum.
         if let Some(qc) = self.aggregator.add_vote(vote.clone())? {
             debug!("Assembled {:?}", qc);
-            info!("[GEODEC] VOTE: {:?} - {:?}", vote.round, vote.author);
+            // info!("[GEODEC] VOTE: {:?} - {:?}", vote.round, vote.author);
 
             // Process the QC.
             self.process_qc(&qc).await;
@@ -229,7 +229,7 @@ impl Core {
 
     async fn handle_timeout(&mut self, timeout: &Timeout) -> ConsensusResult<()> {
         debug!("Processing {:?}", timeout);
-        info!("[GEODEC] TIMEOUT: {:?}", timeout);
+        // info!("[GEODEC] TIMEOUT: {:?}", timeout);
         if timeout.round < self.round {
             return Ok(());
         }
